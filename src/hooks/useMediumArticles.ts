@@ -10,6 +10,17 @@ interface MediumArticle {
   categories: string[];
 }
 
+/** Shape of a single item in the Medium feed API response. */
+interface MediumFeedItem {
+  title?: string;
+  link?: string;
+  pubDate?: string;
+  description?: string;
+  content?: string;
+  categories?: string[];
+  'content:encoded'?: string;
+}
+
 const extractFirstImage = (content: string): string => {
   if (!content) return '';
   
@@ -166,7 +177,7 @@ export const useMediumArticles = () => {
         });
         
         if (data.status === 'ok' && Array.isArray(data.items)) {
-          const processedArticles = data.items.map((item: any) => {
+          const processedArticles = data.items.map((item: MediumFeedItem) => {
             const content = item['content:encoded'] || item.content || item.description || '';
             const imageUrl = extractFirstImage(content);
             

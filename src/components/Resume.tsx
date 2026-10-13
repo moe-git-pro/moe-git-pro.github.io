@@ -9,11 +9,10 @@ import {
   Flex,
   useColorModeValue,
   Badge,
-  Container,
   Circle,
   Button,
   chakra,
-  shouldForwardProp
+  shouldForwardProp,
 } from '@chakra-ui/react';
 import { motion, isValidMotionProp } from 'framer-motion';
 import {
@@ -21,7 +20,7 @@ import {
   FaMapMarkerAlt,
   FaCode,
   FaChevronDown,
-  FaChevronUp
+  FaChevronUp,
 } from 'react-icons/fa';
 import {
   SiKubernetes,
@@ -39,14 +38,11 @@ import {
   SiGithubactions,
   SiLinux,
   SiPython,
-  SiJavascript
+  SiJavascript,
 } from 'react-icons/si';
+import { GlassCard, GradientText, SectionHeading, UiSection } from './ui';
 
 const MotionFlex = chakra(motion.div, {
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
-});
-
-const MotionBox = chakra(motion.div, {
   shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
 });
 
@@ -64,35 +60,29 @@ interface Experience {
 
 const professionalExperiences: Experience[] = [
   {
-    title: 'Technical Team',
-    company: 'Hackfest',
+    title: 'IT Security Expert',
+    company: 'Ooredoo',
     location: 'Tunis, Tunisia',
-    period: 'Mar 2023 – Jun 2023',
+    period: 'May 2026 – Present',
     icon: FaBriefcase,
-    color: 'orange.500',
-    date: new Date(2023, 2, 1),
+    color: 'purple.500',
+    date: new Date(2026, 4, 18),
     responsibilities: [
-      'Preparing challenges for the CTF competition (Web Exploitation, Cryptography)'
+      'Implement and enforce Ooredoo\'s enterprise security policy and information security best practices across the organization.',
+      'Review and validate network and system architectures to ensure compliance with security rules, standards, and regulatory requirements.',
+      'Lead security-related projects in collaboration with vendors and partners, ensuring alignment with Ooredoo\'s security architecture.',
+      'Ensure that requested network flow openings comply with security rules and Ooredoo\'s security architecture.',
+      'Ensure that projects are documented in compliance with Ooredoo\'s best practices.',
+      'Monitor and follow up on defined security projects.',
+      'Support Ooredoo vendors in the implementation of security projects.',
+      'Ensure proper documentation of security projects.',
+      'Monitor emerging vulnerabilities and cyberattacks and communicate relevant information.',
+      'Track and ensure the implementation of remediation actions.'
     ],
     Keywords: [
-      'CTF', 'Web Exploitation', 'Cryptography'
-    ]
-  },
-  {
-    title: 'Internship',
-    company: '6NLG(2SB) - SUP’COM',
-    location: 'Tunis, Tunisia',
-    period: 'Sep 2023 – Present',
-    icon: FaBriefcase,
-    color: 'green.500',
-    date: new Date(2023, 8, 1),
-    responsibilities: [
-      'Secured cloud services using Reverse Proxy and Cloud Access Security Broker (CASB) solutions.',
-      'Implemented robust cloud security, data protection, and access control leveraging Netskope CASB, SWG, and ZTNA technologies.',
-      'Developed, enforced, and monitored security policies to ensure compliance, reduce risk, and protect sensitive data.'
-    ],
-    Keywords: [
-      'Reverse Proxy', 'CASB', 'Netskope', 'SWG', 'ZTNA', 'Cloud Security'
+      'Security Policy', 'Security Architecture', 'Network Security',
+      'Vulnerability Management', 'Risk Assessment', 'Security Compliance',
+      'Project Management'
     ]
   },
   {
@@ -119,6 +109,38 @@ const professionalExperiences: Experience[] = [
     ],
     Keywords: [
       'Amazon EKS', 'GitHub Actions', 'ArgoCD', 'Helm', 'Semgrep', 'Trivy', 'OWASP ZAP', 'Hashicorp Vault', 'GitOps', 'HashiCorp Consul', 'mTLS', 'RBAC', 'ACL', 'AWS', 'OVH', 'Docker', 'Kubernetes', 'Amazon Bedrock', 'Amazon Aurora', 'pgvector', 'RAG'
+    ]
+  },
+  {
+    title: 'Internship',
+    company: '6NLG(2SB) - SUP’COM',
+    location: 'Tunis, Tunisia',
+    period: 'Sep 2023 – Present',
+    icon: FaBriefcase,
+    color: 'green.500',
+    date: new Date(2023, 8, 1),
+    responsibilities: [
+      'Secured cloud services using Reverse Proxy and Cloud Access Security Broker (CASB) solutions.',
+      'Implemented robust cloud security, data protection, and access control leveraging Netskope CASB, SWG, and ZTNA technologies.',
+      'Developed, enforced, and monitored security policies to ensure compliance, reduce risk, and protect sensitive data.'
+    ],
+    Keywords: [
+      'Reverse Proxy', 'CASB', 'Netskope', 'SWG', 'ZTNA', 'Cloud Security'
+    ]
+  },
+  {
+    title: 'Technical Team',
+    company: 'Hackfest',
+    location: 'Tunis, Tunisia',
+    period: 'Mar 2023 – Jun 2023',
+    icon: FaBriefcase,
+    color: 'orange.500',
+    date: new Date(2023, 2, 1),
+    responsibilities: [
+      'Preparing challenges for the CTF competition (Web Exploitation, Cryptography)'
+    ],
+    Keywords: [
+      'CTF', 'Web Exploitation', 'Cryptography'
     ]
   }
 ];
@@ -154,169 +176,159 @@ const getTechnologyIcon = (technology: string) => {
 export const Resume: React.FC = () => {
   const [activeExperience, setActiveExperience] = useState<number | null>(0);
 
-  const bgColor = useColorModeValue('light.bg', 'dark.bg');
-  const textColor = useColorModeValue('light.text', 'dark.text');
-  const mutedColor = useColorModeValue('light.muted', 'dark.muted');
+  const accentColor = useColorModeValue('brand.500', 'brand.300');
   const borderColor = useColorModeValue('light.border', 'dark.border');
-  const cardBg = useColorModeValue('light.card', 'dark.card');
-  const accentColor = useColorModeValue('brand.500', 'brand.400');
+  const cardBg = useColorModeValue('white', 'dark.card');
+  const chipBg = useColorModeValue('gray.100', 'whiteAlpha.100');
 
   return (
-    <Box id="resume" bg={bgColor} py={24}>
-      <Container maxW="container.lg">
-        <VStack spacing={16} align="stretch">
-          <VStack spacing={4} textAlign="center">
-            <Badge colorScheme="brand" variant="subtle" px={4} py={1} borderRadius="full">
-              Journey
-            </Badge>
-            <Heading fontSize={{ base: '3xl', md: '4xl' }} fontWeight="800">
-              Professional Experience
-            </Heading>
-            <Text color={mutedColor} fontSize="lg" maxW="2xl">
-              My career path in Cybersecurity and DevSecOps, focusing on building
-              secure, scalable, and resilient digital architectures.
-            </Text>
-          </VStack>
+    <UiSection id="resume" maxW="container.lg">
+      <VStack spacing={16} align="stretch">
+        <SectionHeading
+          badge="Journey"
+          title={
+            <>
+              Professional <GradientText>Experience</GradientText>
+            </>
+          }
+          subtitle="My career in DevSecOps and Cybersecurity, building secure, scalable, and resilient digital architectures."
+        />
 
-          <Box position="relative">
-            {/* Timeline Line */}
-            <Box
-              position="absolute"
-              left={{ base: "20px", md: "50%" }}
-              top="0"
-              bottom="0"
-              width="2px"
-              bg={borderColor}
-              transform={{ base: "none", md: "translateX(-50%)" }}
-              zIndex={0}
-            />
+        <Box position="relative">
+          {/* Timeline Line */}
+          <Box
+            position="absolute"
+            left={{ base: '20px', md: '50%' }}
+            top="0"
+            bottom="0"
+            width="2px"
+            bgGradient="linear(to-b, brand.400, accent.500, transparent)"
+            transform={{ base: 'none', md: 'translateX(-50%)' }}
+            zIndex={0}
+          />
 
-            <VStack spacing={12} align="stretch" position="relative" zIndex={1}>
-              {professionalExperiences.map((exp, index) => (
-                <MotionFlex
-                  key={`${exp.company}-${index}`}
+          <VStack spacing={12} align="stretch" position="relative" zIndex={1}>
+            {professionalExperiences.map((exp, index) => (
+              <MotionFlex
+                key={`${exp.company}-${index}`}
+                display="flex"
+                flexDirection={{ base: 'row', md: index % 2 === 0 ? 'row' : 'row-reverse' }}
+                alignItems="flex-start"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: index * 0.08 } as never}
+              >
+                {/* Timeline Dot */}
+                <Circle
+                  size="44px"
+                  bg={cardBg}
+                  border="2px solid"
+                  borderColor={accentColor}
+                  position="absolute"
+                  left={{ base: '0', md: '50%' }}
+                  transform={{ base: 'none', md: 'translateX(-50%)' }}
+                  zIndex={2}
                   display="flex"
-                  flexDirection={{ base: 'row', md: index % 2 === 0 ? 'row' : 'row-reverse' }}
-                  alignItems="flex-start"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 } as any}
+                  alignItems="center"
+                  justifyContent="center"
+                  boxShadow="glow-sm"
                 >
-                  {/* Timeline Dot */}
-                  <Circle
-                    size="40px"
-                    bg={cardBg}
-                    border="2px solid"
-                    borderColor={accentColor}
-                    position="absolute"
-                    left={{ base: "0", md: "50%" }}
-                    transform={{ base: "none", md: "translateX(-50%)" }}
-                    zIndex={2}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    boxShadow="sm"
-                  >
-                    <Icon as={exp.icon} color={accentColor} w={4} h={4} />
-                  </Circle>
+                  <Icon as={exp.icon} color={accentColor} w={4} h={4} />
+                </Circle>
 
-                  {/* Spacer for Desktop Timeline */}
-                  <Box flex={1} display={{ base: 'none', md: 'block' }} />
+                {/* Spacer for Desktop Timeline */}
+                <Box flex={1} display={{ base: 'none', md: 'block' }} />
 
-                  {/* Content Card */}
-                  <Box
-                    flex={1}
-                    ml={{ base: 12, md: index % 2 === 0 ? 12 : 0 }}
-                    mr={{ base: 0, md: index % 2 === 0 ? 0 : 12 }}
-                  >
-                    <MotionBox
-                      bg={cardBg}
-                      p={6}
-                      borderRadius="2xl"
-                      border="1px solid"
-                      borderColor={borderColor}
-                      boxShadow="sm"
-                      whileHover={{ translateY: -5, boxShadow: 'lg' } as any}
-                      transition={{ duration: 0.3 } as any}
-                    >
-                      <VStack align="stretch" spacing={4}>
-                        <Flex justify="space-between" align="start" wrap="wrap" gap={2}>
-                          <VStack align="start" spacing={1}>
-                            <Heading size="md" fontWeight="bold">
-                              {exp.title}
-                            </Heading>
-                            <HStack color={accentColor} spacing={2}>
-                              <Text fontWeight="600">{exp.company}</Text>
-                              <Text fontSize="xs">•</Text>
-                              <HStack spacing={1} color={mutedColor}>
-                                <Icon as={FaMapMarkerAlt} w={3} h={3} />
-                                <Text fontSize="xs">{exp.location}</Text>
-                              </HStack>
+                {/* Content Card */}
+                <Box
+                  flex={1}
+                  ml={{ base: 12, md: index % 2 === 0 ? 12 : 0 }}
+                  mr={{ base: 0, md: index % 2 === 0 ? 0 : 12 }}
+                >
+                  <GlassCard p={6} delay={0} borderRadius="2xl">
+                    <VStack align="stretch" spacing={4}>
+                      <Flex justify="space-between" align="start" wrap="wrap" gap={2}>
+                        <VStack align="start" spacing={1}>
+                          <Heading size="md" fontWeight="800">
+                            {exp.title}
+                          </Heading>
+                          <HStack color={accentColor} spacing={2}>
+                            <Text fontWeight="700">{exp.company}</Text>
+                            <Text fontSize="xs">•</Text>
+                            <HStack spacing={1} color="app.muted">
+                              <Icon as={FaMapMarkerAlt} w={3} h={3} />
+                              <Text fontSize="xs">{exp.location}</Text>
                             </HStack>
-                          </VStack>
-                          <Badge colorScheme="brand" variant="outline" borderRadius="full" px={3}>
-                            {exp.period}
-                          </Badge>
-                        </Flex>
-
-                        <VStack align="stretch" spacing={3}>
-                          {exp.responsibilities.slice(0, activeExperience === index ? undefined : 3).map((resp, i) => (
-                            <HStack key={i} align="start" spacing={3}>
-                              <Icon as={FaCode} color={accentColor} mt={1} w={3} h={3} />
-                              <Text fontSize="sm" color={textColor} lineHeight="tall">
-                                {resp}
-                              </Text>
-                            </HStack>
-                          ))}
+                          </HStack>
                         </VStack>
+                        <Badge
+                          variant="outline"
+                          borderRadius="full"
+                          px={3}
+                          color={accentColor}
+                          borderColor={accentColor}
+                        >
+                          {exp.period}
+                        </Badge>
+                      </Flex>
 
-                        {exp.responsibilities.length > 3 && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setActiveExperience(activeExperience === index ? null : index)}
-                            rightIcon={activeExperience === index ? <FaChevronUp /> : <FaChevronDown />}
-                            alignSelf="flex-start"
-                            fontSize="xs"
-                            color={accentColor}
-                          >
-                            {activeExperience === index ? 'Show Less' : `Show ${exp.responsibilities.length - 3} More Items`}
-                          </Button>
-                        )}
-
-                        {exp.Keywords && (
-                          <Flex wrap="wrap" gap={2} pt={2}>
-                            {exp.Keywords.map((tech, i) => {
-                              const TechIcon = getTechnologyIcon(tech);
-                              return (
-                                <HStack
-                                  key={i}
-                                  bg={useColorModeValue('gray.50', 'whiteAlpha.50')}
-                                  px={2}
-                                  py={1}
-                                  borderRadius="md"
-                                  border="1px solid"
-                                  borderColor={borderColor}
-                                >
-                                  <Icon as={TechIcon} w={3} h={3} color={mutedColor} />
-                                  <Text fontSize="2xs" fontWeight="bold" color={mutedColor}>
-                                    {tech}
-                                  </Text>
-                                </HStack>
-                              );
-                            })}
-                          </Flex>
-                        )}
+                      <VStack align="stretch" spacing={3}>
+                        {exp.responsibilities.slice(0, activeExperience === index ? undefined : 3).map((resp, i) => (
+                          <HStack key={i} align="start" spacing={3}>
+                            <Icon as={FaCode} color={accentColor} mt={1} w={3} h={3} />
+                            <Text fontSize="sm" color="app.text" lineHeight="tall">
+                              {resp}
+                            </Text>
+                          </HStack>
+                        ))}
                       </VStack>
-                    </MotionBox>
-                  </Box>
-                </MotionFlex>
-              ))}
-            </VStack>
-          </Box>
-        </VStack>
-      </Container>
-    </Box>
+
+                      {exp.responsibilities.length > 3 && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setActiveExperience(activeExperience === index ? null : index)}
+                          rightIcon={activeExperience === index ? <FaChevronUp /> : <FaChevronDown />}
+                          alignSelf="flex-start"
+                          fontSize="xs"
+                          color={accentColor}
+                        >
+                          {activeExperience === index ? 'Show Less' : `Show ${exp.responsibilities.length - 3} More Items`}
+                        </Button>
+                      )}
+
+                      {exp.Keywords && (
+                        <Flex wrap="wrap" gap={2} pt={2}>
+                          {exp.Keywords.map((tech, i) => {
+                            const TechIcon = getTechnologyIcon(tech);
+                            return (
+                              <HStack
+                                key={i}
+                                bg={chipBg}
+                                px={2}
+                                py={1}
+                                borderRadius="md"
+                                border="1px solid"
+                                borderColor={borderColor}
+                              >
+                                <Icon as={TechIcon} w={3} h={3} color="app.muted" />
+                                <Text fontSize="2xs" fontWeight="bold" color="app.muted">
+                                  {tech}
+                                </Text>
+                              </HStack>
+                            );
+                          })}
+                        </Flex>
+                      )}
+                    </VStack>
+                  </GlassCard>
+                </Box>
+              </MotionFlex>
+            ))}
+          </VStack>
+        </Box>
+      </VStack>
+    </UiSection>
   );
 };

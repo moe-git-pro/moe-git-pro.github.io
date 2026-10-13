@@ -25,25 +25,25 @@ class Logger {
     return levels[this.logLevel] <= levels[level];
   }
 
-  debug(...args: any[]) {
+  debug(...args: unknown[]) {
     if (this.shouldLog('debug')) {
       console.debug('[DEBUG]', ...args);
     }
   }
 
-  info(...args: any[]) {
+  info(...args: unknown[]) {
     if (this.shouldLog('info')) {
       console.info('[INFO]', ...args);
     }
   }
 
-  warn(...args: any[]) {
+  warn(...args: unknown[]) {
     if (this.shouldLog('warn')) {
       console.warn('[WARN]', ...args);
     }
   }
 
-  error(...args: any[]) {
+  error(...args: unknown[]) {
     if (this.shouldLog('error')) {
       console.error('[ERROR]', ...args);
     }

@@ -1,5 +1,5 @@
 interface CachedData {
-  data: any;
+  data: unknown;
   timestamp: number;
 }
 
@@ -7,7 +7,7 @@ const CACHE_KEY = 'medium_articles_cache';
 const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 
 export const articleCache = {
-  set: (data: any) => {
+  set: (data: unknown) => {
     const cacheData: CachedData = {
       data,
       timestamp: Date.now(),
@@ -15,7 +15,7 @@ export const articleCache = {
     localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
   },
 
-  get: (): any | null => {
+  get: (): unknown | null => {
     const cached = localStorage.getItem(CACHE_KEY);
     if (!cached) return null;
 

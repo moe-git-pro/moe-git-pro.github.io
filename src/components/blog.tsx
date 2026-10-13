@@ -42,7 +42,7 @@ const BlogArticleCard = ({ article, index }: { article: Article; index: number }
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 } as any}
+      transition={{ duration: 0.5, delay: index * 0.1 } as never}
       bg={cardBg}
       borderRadius="3xl"
       border="1px solid"
@@ -51,7 +51,7 @@ const BlogArticleCard = ({ article, index }: { article: Article; index: number }
       height="100%"
       display="flex"
       flexDirection="column"
-      whileHover={{ translateY: -8, shadow: 'xl', borderColor: accentColor } as any}
+      whileHover={{ translateY: -8, shadow: 'xl', borderColor: accentColor } as never}
     >
       <Box h="200px" overflow="hidden" position="relative">
         <Image

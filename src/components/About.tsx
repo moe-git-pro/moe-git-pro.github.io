@@ -1,111 +1,108 @@
 import * as React from 'react';
 import {
   Box,
-  Container,
   Heading,
   Text,
   VStack,
   Icon,
   SimpleGrid,
   useColorModeValue,
-  Badge,
   Flex,
-  chakra,
-  shouldForwardProp
+  HStack,
 } from '@chakra-ui/react';
-import { motion, isValidMotionProp } from 'framer-motion';
 import {
   FaCode,
   FaShieldAlt,
   FaNetworkWired,
-  FaCloud
+  FaCloud,
 } from 'react-icons/fa';
-
-const MotionBox = chakra(motion.div, {
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
-});
+import { GlassCard, GradientText, SectionHeading, UiSection } from './ui';
 
 const AboutSection: React.FC = () => {
-  const cardBg = useColorModeValue('light.card', 'dark.card');
-  const textColor = useColorModeValue('light.text', 'dark.text');
-  const mutedColor = useColorModeValue('light.muted', 'dark.muted');
-  const accentColor = useColorModeValue('brand.500', 'brand.400');
-  const borderColor = useColorModeValue('light.border', 'dark.border');
+  const accentColor = useColorModeValue('brand.500', 'brand.300');
 
   const AboutCards = [
     {
       icon: FaShieldAlt,
-      title: 'Cybersecurity',
-      description: 'Implementing robust security measures and incident response strategies to protect digital assets.'
+      title: 'Threat Detection & Response',
+      description:
+        'Proactively identifying vulnerabilities, monitoring threats, and orchestrating incident response to protect critical assets.',
     },
     {
       icon: FaNetworkWired,
-      title: 'DevSecOps',
-      description: 'Shifting security left by integrating automated controls into CI/CD pipelines and infrastructure.'
+      title: 'Security Automation & CI/CD',
+      description:
+        'Embedding security controls into pipelines with SAST, DAST, container scanning, and automated policy enforcement.',
     },
     {
       icon: FaCloud,
-      title: 'Cloud Security',
-      description: 'Designing secure, resilient cloud architectures leveraging AWS, OVH, and modern networking.'
+      title: 'Cloud Security & Compliance',
+      description:
+        'Designing secure cloud architectures on AWS and OVH with CASB, ZTNA, and compliance frameworks like NIST & ISO 27001.',
     },
     {
       icon: FaCode,
-      title: 'Secure Coding',
-      description: 'Building scalable applications with a security-first mindset and automated vulnerability analysis.'
-    }
+      title: 'Vulnerability Assessment',
+      description:
+        'Conducting security audits, penetration testing, and risk assessments to identify and remediate security gaps.',
+    },
   ];
 
   return (
-    <Box as="section" id="about" py={32} bg={useColorModeValue('light.bg', 'dark.bg')}>
-      <Container maxW="container.xl">
-        <VStack spacing={20} align="stretch">
-          <Flex direction={{ base: 'column', lg: 'row' }} gap={12} align="center">
-            <VStack align={{ base: 'center', lg: 'start' }} flex={1} spacing={6}>
-              <Badge colorScheme="brand" variant="subtle" px={4} py={1} borderRadius="full">
-                Background
-              </Badge>
-              <Heading fontSize={{ base: '3xl', md: '5xl' }} fontWeight="800" textAlign={{ base: 'center', lg: 'start' }}>
-                Bridging Security and <Text as="span" color={accentColor}>Innovation</Text>.
-              </Heading>
-              <Text fontSize="lg" color={mutedColor} textAlign={{ base: 'center', lg: 'start' }} lineHeight="tall">
-                I am a Cybersecurity and DevSecOps Engineer with a mission to simplify security.
-                My approach is not just about building walls, but about building
-                <Text as="span" fontWeight="bold" color={textColor}> resilient, automated ecosystems</Text> that
-                empower developers while keeping global infrastructures safe.
-              </Text>
-            </VStack>
+    <UiSection id="about" orbs>
+      <VStack spacing={16} align="stretch">
+        <SectionHeading
+          badge="Background"
+          title={
+            <>
+              Securing Enterprise <GradientText>Infrastructure</GradientText>.
+            </>
+          }
+          subtitle={
+            <>
+              I am a DevSecOps Engineer with a mission to protect digital ecosystems. My
+              approach combines deep technical expertise with automated security controls
+              and compliance-driven design to keep organizations secure in an evolving
+              threat landscape.
+            </>
+          }
+        />
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} flex={1.2}>
-              {AboutCards.map((card, index) => (
-                <MotionBox
-                  key={index}
-                  bg={cardBg}
-                  p={8}
-                  borderRadius="3xl"
-                  border="1px solid"
-                  borderColor={borderColor}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 } as any}
-                  whileHover={{ translateY: -5, borderColor: accentColor } as any}
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
+          {AboutCards.map((card, index) => (
+            <GlassCard key={index} delay={index * 0.08} p={7}>
+              <VStack align="start" spacing={5}>
+                <Flex
+                  align="center"
+                  justify="center"
+                  boxSize="52px"
+                  borderRadius="xl"
+                  bgGradient="linear(to-br, brand.500, accent.500)"
+                  color="white"
+                  boxShadow="soft"
+                  transition="transform 0.3s ease"
+                  _groupHover={{ transform: 'scale(1.08)' }}
                 >
-                  <VStack align="start" spacing={4}>
-                    <Icon as={card.icon} w={8} h={8} color={accentColor} />
-                    <Heading size="md" fontWeight="bold">
-                      {card.title}
-                    </Heading>
-                    <Text color={mutedColor} fontSize="sm">
-                      {card.description}
-                    </Text>
-                  </VStack>
-                </MotionBox>
-              ))}
-            </SimpleGrid>
-          </Flex>
-        </VStack>
-      </Container>
-    </Box>
+                  <Icon as={card.icon} boxSize={6} />
+                </Flex>
+                <VStack align="start" spacing={2}>
+                  <Heading size="sm" fontWeight="800" lineHeight="shorter">
+                    {card.title}
+                  </Heading>
+                  <Text color="app.muted" fontSize="sm" lineHeight="tall">
+                    {card.description}
+                  </Text>
+                </VStack>
+                <HStack pt={1} spacing={2} color={accentColor} fontSize="2xs" fontWeight="800" letterSpacing="wider">
+                  <Box w={4} h="2px" bg="currentColor" borderRadius="full" />
+                  <Text textTransform="uppercase">0{index + 1}</Text>
+                </HStack>
+              </VStack>
+            </GlassCard>
+          ))}
+        </SimpleGrid>
+      </VStack>
+    </UiSection>
   );
 };
 

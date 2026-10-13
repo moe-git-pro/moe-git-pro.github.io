@@ -1,14 +1,14 @@
 import React from 'react';
 import ccBadge from './assets/images/certificates/is2.png';
-import {
-  ChakraProvider,
-  Box,
-  ColorModeScript
-} from '@chakra-ui/react';
+import clavisterNetwallExpert from './assets/images/certificates/clavister_netwall_expert.png';
+import clavisterNetwallRouting from './assets/images/certificates/clavister_netwall_routing.png';
+import clavisterNetwallFundamentals from './assets/images/certificates/clavister_netwall_fundamentals.png';
+import clavisterNetwallCorporate from './assets/images/certificates/clavister_netwall_corporate_networks.png';
+import { ChakraProvider, Box, ColorModeScript } from '@chakra-ui/react';
 import theme from './theme';
 import Hero from './components/Hero';
 import { Medium } from './components/Medium';
-import { TechStacks } from './components/TechStacks'
+import { TechStacks } from './components/TechStacks';
 import { Resume } from './components/Resume';
 import Navbar from './components/Navbar';
 import AboutSection from './components/About';
@@ -20,8 +20,7 @@ import { Activities } from './components/Activities';
 import { IconButton, Icon } from '@chakra-ui/react';
 import { FaArrowUp } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
-
-console.log('App component rendering');
+import { ScrollProgress, SiteBackground } from './components/ui';
 
 const certificates = [
   {
@@ -33,6 +32,42 @@ const certificates = [
     link: "https://www.credly.com/badges/edd23c95-a9e1-431e-a8b7-8ea87351de6e",
     credlyLink: "https://www.credly.com/badges/edd23c95-a9e1-431e-a8b7-8ea87351de6e",
     photo: ccBadge,
+  },
+  {
+    title: "Clavister NetWall Expert",
+    issueDate: "2026-04-15",
+    issuer: "Clavister",
+    description:
+      "This badge certifies the successful completion of the Clavister NetWall Expert course, demonstrating advanced expertise in Clavister's network security solutions.",
+    link: "https://training.clavister.com/badges/badge.php?hash=2ab09a2e4d72bdfd8166be2045ac342fcb22403f",
+    photo: clavisterNetwallExpert,
+  },
+  {
+    title: "Clavister NetWall Routing",
+    issueDate: "2026-04-15",
+    issuer: "Clavister",
+    description:
+      "This badge certifies the successful completion of the Clavister NetWall Routing course, validating skills in network routing configuration and security.",
+    link: "https://training.clavister.com/badges/badge.php?hash=972cdcba0812eaef148f6314e2499ebd6653954d",
+    photo: clavisterNetwallRouting,
+  },
+  {
+    title: "Clavister NetWall Fundamentals",
+    issueDate: "2026-04-13",
+    issuer: "Clavister",
+    description:
+      "This badge certifies the successful completion of the Clavister NetWall Fundamentals course, covering foundational concepts of Clavister's network security platform.",
+    link: "https://training.clavister.com/badges/badge.php?hash=f1e3ff0cb0b144bd083a657adfeb5fbd23dcc757",
+    photo: clavisterNetwallFundamentals,
+  },
+  {
+    title: "Clavister NetWall Building Corporate Networks",
+    issueDate: "2026-04-13",
+    issuer: "Clavister",
+    description:
+      "This badge certifies the successful completion of the Clavister NetWall Building Corporate Networks course, demonstrating skills in designing and securing corporate network infrastructures.",
+    link: "https://training.clavister.com/badges/badge.php?hash=47b1421574866d778437e264cf2907e1ff966faf",
+    photo: clavisterNetwallCorporate,
   }
 ];
 
@@ -63,12 +98,13 @@ const ScrollToTop = () => {
           <IconButton
             icon={<Icon as={FaArrowUp} />}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            colorScheme="brand"
+            bgGradient="linear(to-br, brand.500, accent.500)"
+            color="white"
             borderRadius="full"
-            shadow="lg"
+            boxShadow="glow"
             size="lg"
             aria-label="Scroll to top"
-            _hover={{ transform: 'scale(1.1)' }}
+            _hover={{ transform: 'scale(1.08)', boxShadow: 'glow' }}
           />
         </motion.div>
       )}
@@ -80,9 +116,11 @@ export const App: React.FC = () => {
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <Box>
+      <SiteBackground />
+      <ScrollProgress />
+      <Box position="relative" zIndex={1}>
         <Navbar />
-        <Box>
+        <Box as="main">
           <Hero />
           <AboutSection />
           <Medium />
@@ -92,9 +130,9 @@ export const App: React.FC = () => {
           <Projects />
           <Education />
           <Activities />
-          <Footer />
-          <ScrollToTop />
         </Box>
+        <Footer />
+        <ScrollToTop />
       </Box>
     </ChakraProvider>
   );

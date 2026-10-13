@@ -10,20 +10,13 @@ import {
   Link,
   Image,
   Badge,
-  Container,
   Icon,
   VStack,
-  chakra,
-  shouldForwardProp
+  HStack,
 } from '@chakra-ui/react';
-import { motion, isValidMotionProp } from 'framer-motion';
 import { FaExternalLinkAlt, FaCalendarAlt } from 'react-icons/fa';
 import { useMediumArticles } from '../hooks/useMediumArticles';
-import { HStack } from '@chakra-ui/react';
-
-const MotionBox = chakra(motion.div, {
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
-});
+import { GlassCard, GradientText, SectionHeading, UiSection } from './ui';
 
 const NewsCard = ({
   title,
@@ -31,7 +24,8 @@ const NewsCard = ({
   description,
   tags,
   link,
-  thumbnail
+  thumbnail,
+  delay,
 }: {
   title: string;
   date: string;
@@ -39,29 +33,12 @@ const NewsCard = ({
   tags: string[];
   link: string;
   thumbnail: string;
+  delay: number;
 }) => {
-  const cardBg = useColorModeValue('light.card', 'dark.card');
-  const textColor = useColorModeValue('light.text', 'dark.text');
-  const mutedColor = useColorModeValue('light.muted', 'dark.muted');
-  const accentColor = useColorModeValue('brand.500', 'brand.400');
-  const borderColor = useColorModeValue('light.border', 'dark.border');
+  const accentColor = useColorModeValue('brand.500', 'brand.300');
 
   return (
-    <MotionBox
-      bg={cardBg}
-      borderRadius="3xl"
-      border="1px solid"
-      borderColor={borderColor}
-      overflow="hidden"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 } as any}
-      whileHover={{ translateY: -8, shadow: 'xl', borderColor: accentColor } as any}
-      display="flex"
-      flexDirection="column"
-      height="100%"
-    >
+    <GlassCard delay={delay} p={0} h="100%" overflow="hidden" borderRadius="3xl">
       <Link
         href={link}
         isExternal
@@ -72,58 +49,54 @@ const NewsCard = ({
         flexDirection="column"
       >
         {thumbnail && (
-          <Box position="relative" overflow="hidden" h="240px">
+          <Box position="relative" overflow="hidden" h="220px">
             <Image
               src={thumbnail}
               alt={title}
               w="100%"
               h="100%"
               objectFit="cover"
-              transition="transform 0.5s ease"
-              _groupHover={{ transform: 'scale(1.1)' }}
+              transition="transform 0.6s ease"
+              _groupHover={{ transform: 'scale(1.08)' }}
             />
             <Box
               position="absolute"
+              inset={0}
+              bgGradient="linear(to-t, rgba(7,10,18,0.72), transparent 55%)"
+            />
+            <Badge
+              position="absolute"
               top={4}
               right={4}
+              bg="app.brandSoft"
+              color="brand.200"
+              border="1px solid"
+              borderColor="whiteAlpha.300"
+              backdropFilter="blur(8px)"
+              px={3}
             >
-              <Badge colorScheme="brand" variant="solid" borderRadius="full" px={3}>
-                Article
-              </Badge>
-            </Box>
+              Article
+            </Badge>
           </Box>
         )}
 
         <Box p={6} flex="1" display="flex" flexDirection="column">
-          <HStack color={mutedColor} fontSize="xs" mb={3} spacing={2}>
+          <HStack color="app.muted" fontSize="xs" mb={3} spacing={2}>
             <Icon as={FaCalendarAlt} />
             <Text fontWeight="600">
               {new Date(date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'short',
-                day: 'numeric'
+                day: 'numeric',
               })}
             </Text>
           </HStack>
 
-          <Heading
-            size="md"
-            mb={3}
-            noOfLines={2}
-            fontWeight="800"
-            lineHeight="shorter"
-            color={textColor}
-          >
+          <Heading size="md" mb={3} noOfLines={2} fontWeight="800" lineHeight="shorter" color="app.text">
             {title}
           </Heading>
 
-          <Text
-            noOfLines={3}
-            color={mutedColor}
-            fontSize="sm"
-            mb={6}
-            lineHeight="tall"
-          >
+          <Text noOfLines={3} color="app.muted" fontSize="sm" mb={6} lineHeight="tall">
             {description.replace(/<[^>]*>/g, '').substring(0, 160)}...
           </Text>
 
@@ -149,74 +122,67 @@ const NewsCard = ({
           </Box>
         </Box>
       </Link>
-    </MotionBox>
+    </GlassCard>
   );
 };
-
 
 export const Medium = () => {
   const { articles, loading, error } = useMediumArticles();
 
-  const bgColor = useColorModeValue('light.bg', 'dark.bg');
-  const mutedColor = useColorModeValue('light.muted', 'dark.muted');
-  const spinnerColor = useColorModeValue('brand.500', 'brand.400');
+  const spinnerColor = useColorModeValue('brand.500', 'brand.300');
 
   if (loading) {
     return (
-      <Box py={32} display="flex" justifyContent="center" bg={bgColor}>
-        <Spinner size="xl" thickness="4px" speed="0.65s" color={spinnerColor} />
-      </Box>
+      <UiSection id="medium">
+        <Flex justify="center" py={12}>
+          <Spinner size="xl" thickness="4px" speed="0.65s" color={spinnerColor} />
+        </Flex>
+      </UiSection>
     );
   }
 
   if (error) {
     return (
-      <Box py={20} textAlign="center" bg={bgColor}>
-        <Text color="red.500">Failed to load articles. Please check back later.</Text>
-      </Box>
+      <UiSection id="medium">
+        <Text textAlign="center" color="red.400">
+          Failed to load articles. Please check back later.
+        </Text>
+      </UiSection>
     );
   }
 
   return (
-    <Box as="section" id="medium" py={24} bg={bgColor}>
-      <Container maxW="container.xl">
-        <VStack spacing={16} align="stretch">
-          <VStack spacing={4} textAlign="center">
-            <Badge colorScheme="brand" variant="subtle" px={4} py={1} borderRadius="full">
-              Insights
-            </Badge>
-            <Heading fontSize={{ base: '3xl', md: '4xl' }} fontWeight="800">
-              Latest Articles & Publications
-            </Heading>
-            <Text color={mutedColor} fontSize="lg" maxW="2xl">
-              Exploring the intersections of Cybersecurity, DevSecOps, and
-              Cloud Architecture through technical writing.
-            </Text>
-          </VStack>
+    <UiSection id="medium" orbs>
+      <VStack spacing={16} align="stretch">
+        <SectionHeading
+          badge="Insights"
+          title={
+            <>
+              Latest Articles & <GradientText>Publications</GradientText>
+            </>
+          }
+          subtitle="Exploring the intersections of Cybersecurity, DevSecOps, and Cloud Architecture through technical writing."
+        />
 
-          <Grid
-            templateColumns={{
-              base: '1fr',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)'
-            }}
-            gap={8}
-          >
-            {articles.map((article, index) => (
-              <GridItem key={index}>
-                <NewsCard
-                  title={article.title}
-                  date={article.pubDate}
-                  description={article.description}
-                  tags={article.categories}
-                  link={article.link}
-                  thumbnail={article.thumbnail}
-                />
-              </GridItem>
-            ))}
-          </Grid>
-        </VStack>
-      </Container>
-    </Box>
+        <Grid
+          templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
+          gap={8}
+        >
+          {articles.map((article, index) => (
+            <GridItem key={index}>
+              <NewsCard
+                title={article.title}
+                date={article.pubDate}
+                description={article.description}
+                tags={article.categories}
+                link={article.link}
+                thumbnail={article.thumbnail}
+                delay={index * 0.06}
+              />
+            </GridItem>
+          ))}
+        </Grid>
+      </VStack>
+    </UiSection>
   );
 };

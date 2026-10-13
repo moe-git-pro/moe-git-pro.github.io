@@ -7,25 +7,18 @@ import {
   Button,
   useColorModeValue,
   Spinner,
-  Badge,
-  Container,
   VStack,
   Icon,
   HStack,
-  chakra,
-  shouldForwardProp
+  Flex,
 } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { motion, isValidMotionProp } from 'framer-motion';
 import { FaExternalLinkAlt, FaAward, FaBuilding } from 'react-icons/fa';
-
-const MotionBox = chakra(motion.div, {
-  shouldForwardProp: (prop) => isValidMotionProp(prop) || shouldForwardProp(prop),
-});
+import { GlassCard, GradientText, SectionHeading, UiSection } from './ui';
 
 interface Certificate {
   title: string;
@@ -46,32 +39,19 @@ const CertificateCard = ({
   credlyLink,
   photo,
 }: Certificate) => {
-  const cardBg = useColorModeValue('light.card', 'dark.card');
-  const textColor = useColorModeValue('light.text', 'dark.text');
-  const mutedColor = useColorModeValue('light.muted', 'dark.muted');
-  const accentColor = useColorModeValue('brand.500', 'brand.400');
-  const borderColor = useColorModeValue('light.border', 'dark.border');
+  const accentColor = useColorModeValue('brand.500', 'brand.300');
 
   return (
-    <MotionBox
-      bg={cardBg}
-      borderRadius="3xl"
-      border="1px solid"
-      borderColor={borderColor}
-      height="100%"
-      p={6}
-      position="relative"
-      overflow="hidden"
-      whileHover={{ translateY: -5, shadow: 'xl', borderColor: accentColor } as any}
-      transition={{ duration: 0.3 } as any}
-    >
+    <GlassCard h="100%" p={6} borderRadius="3xl" delay={0}>
       <VStack align="stretch" spacing={6} h="100%">
-        <Box
-          bg={useColorModeValue('gray.50', 'whiteAlpha.50')}
+        <Flex
+          bg={useColorModeValue('white', 'whiteAlpha.100')}
           borderRadius="2xl"
+          border="1px solid"
+          borderColor="app.border"
           p={4}
-          display="flex"
-          justifyContent="center"
+          justify="center"
+          align="center"
           h="160px"
         >
           <Image
@@ -79,16 +59,16 @@ const CertificateCard = ({
             alt={title}
             maxH="100%"
             objectFit="contain"
-            transition="transform 0.3s ease"
-            _hover={{ transform: 'scale(1.1)' }}
+            transition="transform 0.35s ease"
+            _groupHover={{ transform: 'scale(1.08)' }}
           />
-        </Box>
+        </Flex>
 
         <VStack align="start" spacing={3} flex={1}>
           <HStack spacing={2}>
             <Icon as={FaAward} color={accentColor} />
             <Text
-              fontSize="xs"
+              fontSize="2xs"
               color={accentColor}
               fontWeight="800"
               textTransform="uppercase"
@@ -101,18 +81,18 @@ const CertificateCard = ({
             </Text>
           </HStack>
 
-          <Heading size="md" fontWeight="800" color={textColor} lineHeight="shorter">
+          <Heading size="md" fontWeight="800" color="app.text" lineHeight="shorter">
             {title}
           </Heading>
 
-          <HStack spacing={2} color={mutedColor}>
+          <HStack spacing={2} color="app.muted">
             <Icon as={FaBuilding} w={3} h={3} />
             <Text fontSize="sm" fontWeight="600">
               {issuer}
             </Text>
           </HStack>
 
-          <Text fontSize="sm" color={mutedColor} noOfLines={3} lineHeight="tall">
+          <Text fontSize="sm" color="app.muted" noOfLines={3} lineHeight="tall">
             {description}
           </Text>
         </VStack>
@@ -123,7 +103,6 @@ const CertificateCard = ({
               as={Link}
               href={credlyLink}
               isExternal
-              variant="solid"
               size="sm"
               borderRadius="full"
               flex={1}
@@ -136,7 +115,6 @@ const CertificateCard = ({
               as={Link}
               href={link}
               isExternal
-              variant="solid"
               size="sm"
               borderRadius="full"
               flex={1}
@@ -161,73 +139,83 @@ const CertificateCard = ({
           )}
         </HStack>
       </VStack>
-    </MotionBox>
+    </GlassCard>
   );
 };
 
 export const Certificates = ({ certificates }: { certificates: Certificate[] }) => {
-  const bgColor = useColorModeValue('light.bg', 'dark.bg');
-  const mutedColor = useColorModeValue('light.muted', 'dark.muted');
-  const accentColor = useColorModeValue('brand.500', 'brand.400');
+  const accentColor = useColorModeValue('brand.500', 'brand.300');
 
   if (!certificates || certificates.length === 0) {
     return (
-      <Box py={24} bg={bgColor} display="flex" justifyContent="center">
-        <Spinner size="xl" color={accentColor} />
-      </Box>
+      <UiSection id="certifications">
+        <Flex justify="center">
+          <Spinner size="xl" color={accentColor} />
+        </Flex>
+      </UiSection>
     );
   }
 
   return (
-    <Box as="section" id="certifications" py={24} bg={bgColor}>
-      <Container maxW="container.xl">
-        <VStack spacing={16} align="stretch">
-          <VStack spacing={4} textAlign="center">
-            <Badge colorScheme="brand" variant="subtle" px={4} py={1} borderRadius="full">
-              Validation
-            </Badge>
-            <Heading fontSize={{ base: '3xl', md: '4xl' }} fontWeight="800">
-              Professional Certifications
-            </Heading>
-            <Text color={mutedColor} fontSize="lg" maxW="2xl">
-              Verified credentials demonstrating expertise in cybersecurity,
-              cloud security, and network management.
-            </Text>
-          </VStack>
+    <UiSection id="certifications" orbs>
+      <VStack spacing={16} align="stretch">
+        <SectionHeading
+          badge="Validation"
+          title={
+            <>
+              Professional <GradientText>Certifications</GradientText>
+            </>
+          }
+          subtitle="Verified credentials demonstrating expertise in cybersecurity, cloud security, and network management."
+        />
 
-          <Box
-            sx={{
-              '.swiper-button-next, .swiper-button-prev': {
-                color: accentColor,
-                '&::after': { fontSize: '20px', fontWeight: 'bold' }
-              },
-              '.swiper-pagination-bullet-active': {
-                bg: accentColor
-              }
+        <Box
+          px={{ base: 0, md: 6 }}
+          pb={4}
+          sx={{
+            '.swiper': { paddingBottom: '56px', paddingTop: '8px' },
+            '.swiper-button-next, .swiper-button-prev': {
+              color: accentColor,
+              w: '38px',
+              h: '38px',
+              borderRadius: 'full',
+              bg: 'rgba(7,10,18,0.55)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              '&::after': { fontSize: '14px', fontWeight: 'bold' },
+            },
+            '.swiper-pagination-bullet': {
+              bg: 'gray.500',
+              opacity: 0.5,
+            },
+            '.swiper-pagination-bullet-active': {
+              bg: accentColor,
+              opacity: 1,
+              width: '22px',
+              borderRadius: 'full',
+            },
+          }}
+        >
+          <Swiper
+            spaceBetween={30}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            breakpoints={{
+              md: { slidesPerView: 2 },
+              lg: { slidesPerView: 3 },
             }}
+            modules={[Navigation, Pagination, Autoplay]}
           >
-            <Swiper
-              style={{ padding: '20px 0 50px 0' }}
-              spaceBetween={30}
-              slidesPerView={1}
-              navigation
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
-              breakpoints={{
-                md: { slidesPerView: 2 },
-                lg: { slidesPerView: 3 },
-              }}
-              modules={[Navigation, Pagination, Autoplay]}
-            >
-              {certificates.map((certificate, index) => (
-                <SwiperSlide key={index}>
-                  <CertificateCard {...certificate} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </Box>
-        </VStack>
-      </Container>
-    </Box>
+            {certificates.map((certificate, index) => (
+              <SwiperSlide key={index} style={{ height: 'auto' }}>
+                <CertificateCard {...certificate} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Box>
+      </VStack>
+    </UiSection>
   );
 };

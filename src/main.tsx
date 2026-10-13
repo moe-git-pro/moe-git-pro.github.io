@@ -1,10 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ChakraProvider, CSSReset } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import theme from './theme'
 import App from './App'
-
-console.log('Starting application...');
+import './index.css'
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -13,15 +12,10 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-console.log('Rendering application...');
-
-root.render( 
+root.render(
   <StrictMode>
     <ChakraProvider theme={theme}>
-      <CSSReset />
       <App />
     </ChakraProvider>
   </StrictMode>,
 );
-
-console.log('Application rendered.');
