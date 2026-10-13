@@ -114,7 +114,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch('/website/components/article.json');
+        const response = await fetch('/components/article.json');
         const data = await response.json();
         setArticles(data.articles);
       } catch (error) {

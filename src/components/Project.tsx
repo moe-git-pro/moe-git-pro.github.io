@@ -54,7 +54,7 @@ const projectsData = [
     title: 'Envoy Gateway for Kubernetes',
     description: 'A complete Kubernetes Gateway API setup with TLS termination, automated certificate management, and security hardening.',
     detailedDescription: 'A production-ready security reference demonstrating modern Kubernetes ingress patterns with automated TLS/SSL certificate management via cert-manager, HTTP to HTTPS redirect enforcement, and LoadBalancer service configuration with access controls. Includes hardened deployment scripts following security best practices.',
-    image: '/website/envoy-gateway.png',
+    image: '/envoy-gateway.png',
     technologies: ['Kubernetes', 'Envoy Gateway', 'Gateway API', 'cert-manager', 'MetalLB', 'Bash'],
     features: [
       'Gateway API with security policy enforcement',
@@ -72,7 +72,7 @@ const projectsData = [
     title: 'Consul IPSec Connector',
     description: 'Automated IPSec tunnels with identity-based security using Consul for service discovery and PKI certificate management.',
     detailedDescription: 'A zero-trust networking reference that automates secure container-to-container communication. Dynamically negotiates IPSec parameters and establishes encrypted tunnels at container startup, leveraging Consul for identity-based authentication, mTLS, and automated certificate lifecycle management.',
-    image: '/website/assets/ipsec_tunnel_consul.png',
+    image: '/assets/ipsec_tunnel_consul.png',
     technologies: ['Consul', 'IPSec', 'Docker', 'Bash'],
     features: [
       'Automatic IPSec encrypted tunnel creation',
