@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://moetezafif.github.io",
+  "homepage": "https://moe-git-pro.github.io",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
